@@ -14,7 +14,7 @@ module "ec2_cluster" {
   key_name               = "user1"
   monitoring             = false
   vpc_security_group_ids = ["sg-12345678"]
-  #subnet_id              = "subnet-eddcdzz4"
+  subnet_id              = "${element(module.vpc.private_subnets, 0)}"
 
   tags = {
     Terraform   = "true"
@@ -22,21 +22,21 @@ module "ec2_cluster" {
   } 
 }
 
-# module "vpc" {
-#   source = "terraform-aws-modules/vpc/aws"
+module "vpc" {
+  source = "terraform-aws-modules/vpc/aws"
 
-#   name = "my-vpc"
-#   cidr = "10.0.0.0/16"
+  name = "my-vpc"
+  cidr = "10.0.0.0/16"
 
-#   azs             = ["us-west-2"]
-#   private_subnets = ["10.0.1.0/24"]
-#   public_subnets  = ["10.0.101.0/24"]
+  azs             = ["us-west-2"]
+  private_subnets = ["10.0.1.0/24"]
+  public_subnets  = ["10.0.101.0/24"]
 
-#   enable_nat_gateway = true
-#   enable_vpn_gateway = true
+  enable_nat_gateway = true
+  enable_vpn_gateway = true
 
-#   tags = {
-#     Terraform = "true"
-#     Environment = "dev"
-#   }
-# }
+  tags = {
+    Terraform = "true"
+    Environment = "dev"
+  }
+}
